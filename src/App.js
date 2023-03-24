@@ -1,4 +1,3 @@
-import { create } from "lodash";
 import React from "react"
 import Card from "./Card"
 
@@ -22,6 +21,29 @@ function App() {
     setGameState("IDLE")
   }
 
+  function cardClicked(event, pos){
+    if (!cards[pos]["isClicked"] && !cards[pos]["isMatched"]){
+      setCards(prevData => {
+        const dataCopy = [...prevData];
+        let newData = dataCopy[pos];
+        newData = {
+          ...newData, isClicked: true
+        }
+        dataCopy[pos] = newData
+        return(dataCopy)  
+      })
+    
+      setSelectedCard(prevData => [...prevData, cards[pos]]);
+      if (selectedCard.length == 2){
+        if (selectedCard[0]["img"] == selectedCard[1]["img"]){
+
+        }
+        setGameTurns(prevData => prevData + 1);
+        setSelectedCard([]);
+      }
+    }
+  }
+
   function createCards(){
     const images = [
       "Images/img-1.jpg",
@@ -33,21 +55,35 @@ function App() {
     ];
     // create a list of 12 cards
     const newCards = [];
-    for (let i = 0; i < 12; i++) {
-      const imageIndex = i % 6;
-      newCards.push(
-        <Card 
-          id={i}
-          pair_id={i%2 === 0 ? i + 1 : i - 1}
-          isClicked={true}
-          isMatched={false}
-          img={images[imageIndex]}
-        />
-      );
-    }
+    const prevNum = [];
+    while (newCards.length !== 12){
+      let num = Math.floor(Math.random() * 12) + 1;
+      if (!prevNum.includes(num)){
+        const imageIndex = num % 6;
+        newCards.push(
+          {
+            id: prevNum.length,
+            isClicked: false,
+            isMatched: false,
+            img: images[imageIndex],
+          }
+        );
 
+        prevNum.push(num);
+      }
+    }
     setCards(newCards);
   }
+
+  const cardCell = cards.map((cardData) => {
+    return (
+      <Card
+        key={cardData.id}
+        data={cardData}
+        handleClick={cardClicked}
+      />
+    );
+  });
 
   return (
       <main>
@@ -70,12 +106,8 @@ function App() {
               <h3>Turns: {gameTurns}</h3>
               <h3>Points: {gamePoints}</h3>
             </div>
-            <div class="game-board-container">
-              {
-                cards.map((card) => {
-                  return(<div className="cell">{card}</div>)              
-                })
-              }
+            <div className="game-board-container">
+              {cardCell}
             </div>
             <button className="btn-start" onClick={btnResetGame} style={{"marginTop": "50px"}}>RESTART GAME</button>
           </div>

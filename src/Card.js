@@ -2,19 +2,19 @@ import React from "react"
 import './css/Card.css';
 
 /*
-Props contain the followng:
-    - id [int]: The pos in array before shuffle
-    - index [int]: The pos in array after shuffle
-    - pair_id [int]: The other card with same img
-    - isClicked [bool]: Clicked or not
-    - isMatched [bool]: Matched or not
-    - img [string]: A link to an image
+Props contain the following:
+    - key [int]: Position of card inside the array
+    - data [obj]:
+        - isClicked [bool]: Clicked or not
+        - isMatched [bool]: Matched or not
+        - img [string]: A link to an image
+    - handleClick [func]: A function that handle the click of image
 */
 function Card(props){
-    const cover_img = "Images/img-cover.jpg"
+    const cover_img = "Images/img-cover.jpg";
     return (
-        <div className="card-container">
-            <img className="card-img" alt="card" src={props.isClicked ? props.img : cover_img}></img>
+        <div className="card-container" onClick={(event) => props.handleClick(event, props.data.id)}>
+            <img className="card-img" alt="card" src={props.data.isClicked ? props.data.img : cover_img}></img>
         </div>
     );
 }
