@@ -1,4 +1,12 @@
 .card-img {
     width: 150px;
     height: 225px;
+    cursor: pointer;
+}
+
+.card-img-disabled {
+    width: 150px;
+    height: 225px;
+    filter: saturate(0);
+    cursor: not-allowed;
 }
