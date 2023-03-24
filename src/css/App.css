@@ -47,13 +47,13 @@ main {
 
 .game-board-container {
     display: grid;
-    grid-template-columns: repeat(4, 100px);
-    grid-template-rows: repeat(4, 100px);
+    grid-template-columns: repeat(4, 150px);
+    grid-template-rows: repeat(3, 225px);
     gap: 5px;
-    width: 404px;
-    height: 404px;
+    width: 615px;
+    height: 685px;
     color: white;
-    padding-top: 100px;
+    border: black 1px solid;
   }
 
 .cell {
@@ -62,4 +62,5 @@ main {
     align-items: center;
     font-size: 20px;
     font-weight: bold;
+    border: black 1px solid;
 }
