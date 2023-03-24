@@ -5,11 +5,6 @@
 html body {
     height: 100%;
     margin: 0;
-    background-color: green;
+    background-color: #3e363f;
     font-family: 'Poppins', sans-serif;
-}
-
-main {
-    height: 100%;
-    text-align: center;
 }
