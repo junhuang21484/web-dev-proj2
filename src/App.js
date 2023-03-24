@@ -3,9 +3,17 @@ import './css/App.css';
 
 function App() {
   const [gameState, setGameState] = React.useState("IDLE");
+  const [gameTurns, setGameTurns] = React.useState(1);
+  const [gamePoints, setGamePoints] = React.useState(0);
 
   function btnStartGame(){
     setGameState("STARTED")
+    setGameTurns(1);
+    setGamePoints(0);
+  }
+
+  function btnResetGame(){
+    setGameState("IDLE")
   }
 
   return (
@@ -24,23 +32,30 @@ function App() {
             <button className="btn-start" onClick={btnStartGame}>START GAME</button>
           </div>
           :
-          <div class="game-board-container">
-            <div class="cell">1</div>
-            <div class="cell">2</div>
-            <div class="cell">3</div>
-            <div class="cell">4</div>
-            <div class="cell">5</div>
-            <div class="cell">6</div>
-            <div class="cell">7</div>
-            <div class="cell">8</div>
-            <div class="cell">9</div>
-            <div class="cell">10</div>
-            <div class="cell">11</div>
-            <div class="cell">12</div>
-            <div class="cell">13</div>
-            <div class="cell">14</div>
-            <div class="cell">15</div>
-            <div class="cell">16</div>
+          <div className="game-container">
+            <div className="stat-container">
+              <h3>Turns: {gameTurns}</h3>
+              <h3>Points: {gamePoints}</h3>
+            </div>
+            <div class="game-board-container">
+              <div class="cell">1</div>
+              <div class="cell">2</div>
+              <div class="cell">3</div>
+              <div class="cell">4</div>
+              <div class="cell">5</div>
+              <div class="cell">6</div>
+              <div class="cell">7</div>
+              <div class="cell">8</div>
+              <div class="cell">9</div>
+              <div class="cell">10</div>
+              <div class="cell">11</div>
+              <div class="cell">12</div>
+              <div class="cell">13</div>
+              <div class="cell">14</div>
+              <div class="cell">15</div>
+              <div class="cell">16</div>
+            </div>
+            <button className="btn-start" onClick={btnResetGame} style={{"margin-top": "50px"}}>RESTART GAME</button>
           </div>
         }
       </main>

@@ -34,14 +34,26 @@ main {
     background-color: #3e8e41;
 }
 
+.game-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-container {
+    display: flex;
+    color: white;
+    justify-content: space-around;
+}
+
 .game-board-container {
     display: grid;
-    grid-template-columns: repeat(4, 50px);
-    grid-template-rows: repeat(4, 50px);
-    gap: 1px;
-    width: 202px;
-    height: 202px;
+    grid-template-columns: repeat(4, 100px);
+    grid-template-rows: repeat(4, 100px);
+    gap: 5px;
+    width: 404px;
+    height: 404px;
     color: white;
+    padding-top: 100px;
   }
 
 .cell {
