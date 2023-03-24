@@ -64,3 +64,8 @@ main {
     font-weight: bold;
     border: black 1px solid;
 }
+
+.result-page-container {
+    color: white;
+    text-align: center;
+}
