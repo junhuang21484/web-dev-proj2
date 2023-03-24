@@ -1,20 +1,23 @@
 import React from "react"
 import Card from "./Card"
+import Page from "./Page"
 
 import './css/App.css';
 
 function App() {
-  const [gameState, setGameState] = React.useState("IDLE");
+  const [gameState, setGameState] = React.useState("RESULT");
   const [gameTurns, setGameTurns] = React.useState(1);
   const [gamePoints, setGamePoints] = React.useState(0);
   const [cards, setCards] = React.useState([]);
   const [selectedCard, setSelectedCard] = React.useState([]);
+  const [matchedPair, setMatchedPair] = React.useState(0);
 
   function btnStartGame(){
     setGameState("STARTED")
     setGameTurns(1);
     setGamePoints(0);
     createCards();
+    setMatchedPair(0);
   }
 
   function btnResetGame(){
@@ -34,6 +37,12 @@ function App() {
   }
 
   React.useEffect(() => {
+    if (matchedPair === 6){
+      setGameState("RESULT");
+    }
+  }, [matchedPair])
+
+  React.useEffect(() => {
     if (selectedCard.length === 2){
       if (selectedCard[0]["img"] === selectedCard[1]["img"]){
         setCards(prevData => {
@@ -51,6 +60,10 @@ function App() {
           dataCopy[selectedCard[1]["id"]] = newData
           return(dataCopy)  
         })
+        let multiplier = 30 - gameTurns > 1 ? 30 - gameTurns : 1
+        setGamePoints(prevData => prevData + multiplier * 10);
+          
+        setMatchedPair(prevData => prevData + 1);
       }else{
         setTimeout(() => {
           flipCard(selectedCard[0]["id"]);
@@ -60,7 +73,7 @@ function App() {
       setGameTurns(prevData => prevData + 1);
       setSelectedCard([]);
     }
-  }, [selectedCard]);
+  }, [selectedCard, gameTurns]);
 
   function cardClicked(event, pos){
     if (!cards[pos]["isClicked"] && !cards[pos]["isMatched"]){
@@ -113,18 +126,13 @@ function App() {
   return (
       <main>
         <h1 className="page-title">MEMORY GAME</h1>
-        {gameState === "IDLE" ?
-          <div className="idle-page-container">
-            <h2>Rules</h2>
-            <p>
-              This is the Memory Game! When you press the start game button, there will be a board <br></br>
-              containing 12 cards that appear, click on them to flip them. If both of the flipped card matched it will <br></br>
-              gets eliminated. The goal to to elimante as much pairs of cards as possible within the least <br></br>
-              amount of turns and least amount of time. There will be a stat tracker that shows up after you start the <br></br>
-              game. If you are ready then lets go!
-            </p>
-            <button className="btn-start" onClick={btnStartGame}>START GAME</button>
-          </div>
+        {gameState === "IDLE" || gameState === "RESULT" ?
+          <Page 
+            gameStatus={gameState}
+            gameTurns={gameTurns}
+            gamePoints={gamePoints}
+            funcStartGame={btnStartGame}
+          />
           :
           <div className="game-container">
             <div className="stat-container">
