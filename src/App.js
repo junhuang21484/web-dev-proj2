@@ -21,26 +21,51 @@ function App() {
     setGameState("IDLE")
   }
 
+  function flipCard(pos){
+    setCards(prevData => {
+      const dataCopy = [...prevData];
+      let newData = dataCopy[pos];
+      newData = {
+        ...newData, isClicked: !newData["isClicked"]
+      }
+      dataCopy[pos] = newData
+      return(dataCopy)  
+    })
+  }
+
+  React.useEffect(() => {
+    if (selectedCard.length === 2){
+      if (selectedCard[0]["img"] === selectedCard[1]["img"]){
+        setCards(prevData => {
+          const dataCopy = [...prevData];
+          let newData = dataCopy[selectedCard[0]["id"]];
+          newData = {
+            ...newData, isMatched: true
+          }
+          dataCopy[selectedCard[0]["id"]] = newData
+
+          newData = dataCopy[selectedCard[1]["id"]];
+          newData = {
+            ...newData, isMatched: true
+          }
+          dataCopy[selectedCard[1]["id"]] = newData
+          return(dataCopy)  
+        })
+      }else{
+        setTimeout(() => {
+          flipCard(selectedCard[0]["id"]);
+          flipCard(selectedCard[1]["id"]);
+        }, 500); // set delay for 1 second (1000 milliseconds)
+      }
+      setGameTurns(prevData => prevData + 1);
+      setSelectedCard([]);
+    }
+  }, [selectedCard]);
+
   function cardClicked(event, pos){
     if (!cards[pos]["isClicked"] && !cards[pos]["isMatched"]){
-      setCards(prevData => {
-        const dataCopy = [...prevData];
-        let newData = dataCopy[pos];
-        newData = {
-          ...newData, isClicked: true
-        }
-        dataCopy[pos] = newData
-        return(dataCopy)  
-      })
-    
-      setSelectedCard(prevData => [...prevData, cards[pos]]);
-      if (selectedCard.length == 2){
-        if (selectedCard[0]["img"] == selectedCard[1]["img"]){
-
-        }
-        setGameTurns(prevData => prevData + 1);
-        setSelectedCard([]);
-      }
+      flipCard(pos);
+      setSelectedCard([...selectedCard, cards[pos]]);
     }
   }
 
@@ -93,7 +118,7 @@ function App() {
             <h2>Rules</h2>
             <p>
               This is the Memory Game! When you press the start game button, there will be a board <br></br>
-              containing 16 cards that appear, click on them to flip them. If both of the flipped card matched it will <br></br>
+              containing 12 cards that appear, click on them to flip them. If both of the flipped card matched it will <br></br>
               gets eliminated. The goal to to elimante as much pairs of cards as possible within the least <br></br>
               amount of turns and least amount of time. There will be a stat tracker that shows up after you start the <br></br>
               game. If you are ready then lets go!
