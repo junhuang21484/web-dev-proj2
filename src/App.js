@@ -5,12 +5,13 @@ import Page from "./Page"
 import './css/App.css';
 
 function App() {
-  const [gameState, setGameState] = React.useState("RESULT");
+  const [gameState, setGameState] = React.useState("IDLE");
   const [gameTurns, setGameTurns] = React.useState(1);
   const [gamePoints, setGamePoints] = React.useState(0);
   const [cards, setCards] = React.useState([]);
   const [selectedCard, setSelectedCard] = React.useState([]);
   const [matchedPair, setMatchedPair] = React.useState(0);
+  const [canSelect, setCanSelect] = React.useState(true);
 
   function btnStartGame(){
     setGameState("STARTED")
@@ -18,10 +19,6 @@ function App() {
     setGamePoints(0);
     createCards();
     setMatchedPair(0);
-  }
-
-  function btnResetGame(){
-    setGameState("IDLE")
   }
 
   function flipCard(pos){
@@ -44,22 +41,25 @@ function App() {
 
   React.useEffect(() => {
     if (selectedCard.length === 2){
+      setCanSelect(false);
       if (selectedCard[0]["img"] === selectedCard[1]["img"]){
-        setCards(prevData => {
-          const dataCopy = [...prevData];
-          let newData = dataCopy[selectedCard[0]["id"]];
-          newData = {
-            ...newData, isMatched: true
-          }
-          dataCopy[selectedCard[0]["id"]] = newData
-
-          newData = dataCopy[selectedCard[1]["id"]];
-          newData = {
-            ...newData, isMatched: true
-          }
-          dataCopy[selectedCard[1]["id"]] = newData
-          return(dataCopy)  
-        })
+        setTimeout(() => {
+          setCards(prevData => {
+            const dataCopy = [...prevData];
+            let newData = dataCopy[selectedCard[0]["id"]];
+            newData = {
+              ...newData, isMatched: true
+            }
+            dataCopy[selectedCard[0]["id"]] = newData
+  
+            newData = dataCopy[selectedCard[1]["id"]];
+            newData = {
+              ...newData, isMatched: true
+            }
+            dataCopy[selectedCard[1]["id"]] = newData
+            return(dataCopy)  
+          })
+        }, 250)
         let multiplier = 30 - gameTurns > 1 ? 30 - gameTurns : 1
         setGamePoints(prevData => prevData + multiplier * 10);
           
@@ -68,15 +68,16 @@ function App() {
         setTimeout(() => {
           flipCard(selectedCard[0]["id"]);
           flipCard(selectedCard[1]["id"]);
-        }, 500); // set delay for 1 second (1000 milliseconds)
+        }, 250); // set delay for 250ms
       }
       setGameTurns(prevData => prevData + 1);
       setSelectedCard([]);
+      setCanSelect(true);
     }
   }, [selectedCard, gameTurns]);
 
   function cardClicked(event, pos){
-    if (!cards[pos]["isClicked"] && !cards[pos]["isMatched"]){
+    if (!cards[pos]["isClicked"] && !cards[pos]["isMatched"] && canSelect){
       flipCard(pos);
       setSelectedCard([...selectedCard, cards[pos]]);
     }
@@ -142,7 +143,7 @@ function App() {
             <div className="game-board-container">
               {cardCell}
             </div>
-            <button className="btn-start" onClick={btnResetGame} style={{"marginTop": "50px"}}>RESTART GAME</button>
+            <button className="btn-start" onClick={btnStartGame} style={{"marginTop": "50px"}}>RESTART GAME</button>
           </div>
         }
       </main>

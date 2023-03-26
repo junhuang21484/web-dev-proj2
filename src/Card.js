@@ -14,7 +14,7 @@ function Card(props){
     const cover_img = "Images/img-cover.jpg";
     return (
         props.data.isMatched ? 
-            <div className="card-container">
+            <div className="card-container fade-out">
                 <img className="card-img-disabled" alt="card" src={props.data.img}></img>
             </div> 
             :

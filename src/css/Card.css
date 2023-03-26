@@ -2,11 +2,9 @@
     width: 150px;
     height: 225px;
     cursor: pointer;
+    border-radius: 5%;
 }
 
 .card-img-disabled {
-    width: 150px;
-    height: 225px;
-    filter: saturate(0);
-    cursor: not-allowed;
+    display: none;
 }
