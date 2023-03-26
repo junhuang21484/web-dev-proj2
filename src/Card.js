@@ -11,7 +11,7 @@ Props contain the following:
     - handleClick [func]: A function that handle the click of image
 */
 function Card(props){
-    const cover_img = "Images/img-cover.jpg";
+    const cover_img = "https://media.discordapp.net/attachments/1031057018250862592/1089632280022093965/img-cover.jpg?width=447&height=671";
     return (
         props.data.isMatched ? 
             <div className="card-container fade-out">
