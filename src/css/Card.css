@@ -6,10 +6,6 @@
     transition: transform 0.2s ease-in-out;
   }
   
-  .card-img:hover {
-    transform: rotate(3deg);
-  }
-  
   .card-img-disabled {
     display: none;
   }

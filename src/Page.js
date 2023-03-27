@@ -23,11 +23,11 @@ function Page(props){
             <div className="idle-page-container">
                 <h2>Rules</h2>
                 <p>
-                This is the Memory Game! When you press the start game button, there will be a board <br></br>
-                containing 12 cards that appear, click on them to flip them. If both of the flipped card matched it will <br></br>
-                gets eliminated. The goal to to elimante as much pairs of cards as possible within the least <br></br>
-                amount of turns and least amount of time. There will be a stat tracker that shows up after you start the <br></br>
-                game. If you are ready then lets go!
+                This is the Memory Game! When you press the start game button, a board containing 12 cards will appear. <br></br>
+                Click on them to flip them over. If both of the flipped cards match, they will be eliminated.  <br></br>
+                The goal is to eliminate as many pairs of cards as possible within the least amount of turns and the shortest  <br></br>
+                amount of time. A statistics tracker will show up after you start the game, displaying your performance in terms of time <br></br>
+                taken and number of turns. If you're ready, let's go!
                 </p>
                 <button className="btn-start" onClick={props.funcStartGame}>START GAME</button>
             </div>
